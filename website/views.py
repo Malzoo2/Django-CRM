@@ -46,3 +46,32 @@ def register_user(request):
             return render(request, 'register.html',{'form':form})
         
         return render(request, 'register.html',{'form':form})
+
+def record_user(request, pk):
+     if request.user.is_authenticated :
+        customer_record = Record.objects.get(id=pk)
+        return render(request, 'record.html',{'record':customer_record})
+     else : 
+        messages.success(request, "You have to login first to access this page ...")
+        return redirect('home')
+
+def delete_user(request, pk):
+    if request.user.is_authenticated :
+        delete_record = Record.objects.get(id=pk)
+        delete_record.delete()
+        messages.success(request, "Record Have been Deleted Successfully ...")
+        
+    else : 
+        messages.success(request, "You have to login first to access this page ...")
+        
+    return redirect('home')
+
+def add_record(request):
+        if request.method == 'POST':
+             
+                  messages.success(request, "You have been successfully registered")
+                  return redirect('home')
+        else:
+            return render(request, 'add_record.html',{})
+        
+        return render(request, 'register.html',{'form':form})
